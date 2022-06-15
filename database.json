@@ -1,0 +1,17 @@
+{
+  "dev": {
+    "driver": "pg",
+    "host": "127.0.0.1",
+    "database": "mythical_worlds",
+    "user": "postgres",
+    "password": "Godis-4me"
+  },
+
+  "test": {
+    "driver": "pg",
+    "host": "127.0.0.1",
+    "database": "mythical_worlds_test",
+    "user": "postgres",
+    "password": "Godis-4me"
+  }
+}
