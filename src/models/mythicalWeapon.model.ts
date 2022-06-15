@@ -6,7 +6,7 @@ export interface Weapon {
   weight: number;
   type: string;
 }
-export class MythicalWeaponStore {
+export const MythicalWeaponStore = class {
   public async index(): Promise<Weapon[]> {
     try {
       const con = await Client.connect();
@@ -18,4 +18,4 @@ export class MythicalWeaponStore {
       throw new Error(`Cannot get weapons ${error}`);
     }
   }
-}
+};
