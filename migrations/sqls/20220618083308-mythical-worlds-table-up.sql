@@ -4,3 +4,6 @@ CREATE TABLE mythical_worlds (
   type varchar(50),
   weight integer
 );
+
+
+INSERT INTO mythical_worlds (name, type, weight) VALUES ('Astrakhan', 'Earth', 1);
