@@ -8,8 +8,7 @@ export interface Weapon {
 }
 
 export const MythicalWeaponStore = class {
-
-    createWeapon = async (weapon: Weapon): Promise<Weapon[]> => {
+  createWeapon = async (weapon: Weapon): Promise<Weapon[]> => {
     try {
       const con = await Client.connect();
       const sql =
@@ -25,8 +24,8 @@ export const MythicalWeaponStore = class {
       throw new Error(`Cannot create weapon ${error}`);
     }
   };
-  
-  readonly getAllWeapons = async (): Promise<Weapon[]> => {
+
+  getAllWeapons = async (): Promise<Weapon[]> => {
     try {
       const con = await Client.connect();
       const sql = "SELECT * FROM mythical_worlds";
@@ -49,8 +48,6 @@ export const MythicalWeaponStore = class {
       throw new Error(`Cannot get weapon ${error}`);
     }
   };
-
-
 
   updateWeapon = async (weapon: Weapon): Promise<Weapon[]> => {
     try {

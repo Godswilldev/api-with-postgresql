@@ -1,19 +1,16 @@
 {
-  "spec_dir": "spec",
-  "spec_files": [
-    "../**/tests/*[s]pec.ts"
-  ],
-  "helpers": [
-    "helpers/**/*.js"
-  ],
+  "spec_dir": "src/tests",
+  "spec_files": ["**/*.test.*"],
+  "helpers": ["helpers/**/*.ts"],
   "reporters": [
     {
       "name": "jasmine-spec-reporter#SpecReporter",
+      "color": true,
       "options": {
         "displayStacktrace": "all"
       }
     }
   ],
   "stopSpecOnExpectationFailure": false,
-  "random": true
+  "random": false
 }

@@ -4,19 +4,21 @@ import { config } from "dotenv";
 config();
 
 const {
-  POSTGRES_USER,
-  POSTGRES_PASSWORD,
-  POSTGRES_DB,
-  POSTGRES_HOST,
+  ENV,
+  LOCAL_HOST,
   POSTGRES_PORT,
+  POSTGRES_USER,
+  POSTGRES_DEV_DB,
+  POSTGRES_TEST_DB,
+  POSTGRES_PASSWORD,
 } = process.env;
 
 const client = new Pool({
+  host: LOCAL_HOST,
   user: POSTGRES_USER,
-  host: POSTGRES_HOST,
-  database: POSTGRES_DB,
+  port: Number(POSTGRES_PORT),
   password: POSTGRES_PASSWORD,
-  port: 49155,
+  database: ENV === "dev" ? POSTGRES_DEV_DB : POSTGRES_TEST_DB,
 });
 
 export default client;
