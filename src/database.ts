@@ -1,7 +1,7 @@
+import dotenv from "dotenv";
 import { Pool } from "pg";
-import { config } from "dotenv";
 
-config();
+dotenv.config();
 
 const {
   ENV,

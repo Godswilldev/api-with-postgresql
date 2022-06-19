@@ -1,1 +1,1 @@
-DROP TABLE mythical_worlds
+DROP TABLE mythical_weapons;

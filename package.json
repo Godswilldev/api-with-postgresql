@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/server.ts",
     "tsc": "tsc",
-    "test": "ENV=test db-migrate -e test up && jasmine-ts && db-migrate db:drop down",
+    "test": "ENV=test && db-migrate --env test up && jasmine-ts && db-migrate db:drop test",
     "dev": "tsc-watch --noClear -p tsconfig.json --onSuccess \"node ./dist/server.js\""
   },
   "author": "underscoreDev",
