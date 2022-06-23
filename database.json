@@ -15,5 +15,6 @@
     "user": { "ENV": "POSTGRES_USER" },
     "database": { "ENV": "POSTGRES_TEST_DB" },
     "password": { "ENV": "POSTGRES_PASSWORD" }
-  }
+  },
+  "sql-file": true
 }

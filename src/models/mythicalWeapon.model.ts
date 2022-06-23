@@ -3,20 +3,20 @@ import client from "../database";
 export type Weapon = {
   id?: number;
   name: string;
-  weight: number;
   type: string;
+  weight: number;
 };
 
-export const MythicalWeaponStore = class {
+export const WeaponStore = class {
   createWeapon = async (weapon: Weapon): Promise<Weapon[]> => {
     try {
       const con = await client.connect();
       const sql =
-        "INSERT INTO mythical_weapons (name, weight, type) VALUES ($1, $2, $3) RETURNING *";
+        "INSERT INTO weapons (name, type, weight) VALUES ($1, $2, $3) RETURNING *";
       const result = await con.query(sql, [
         weapon.name,
-        weapon.weight,
         weapon.type,
+        weapon.weight,
       ]);
       con.release();
       return result.rows;
@@ -28,8 +28,9 @@ export const MythicalWeaponStore = class {
   getAllWeapons = async (): Promise<Weapon[]> => {
     try {
       const con = await client.connect();
-      const sql = "SELECT * FROM mythical_weapons";
+      const sql = "SELECT * FROM weapons";
       const result = await con.query(sql);
+      console.log(process.env.ENV);
       con.release();
       return result.rows;
     } catch (error) {
@@ -40,7 +41,7 @@ export const MythicalWeaponStore = class {
   getOneWeapon = async (id: number): Promise<Weapon[]> => {
     try {
       const con = await client.connect();
-      const sql = "SELECT * FROM mythical_weapons WHERE id = $1";
+      const sql = "SELECT * FROM weapons WHERE id = $1";
       const result = await con.query(sql, [id]);
       con.release();
       return result.rows;
@@ -53,11 +54,11 @@ export const MythicalWeaponStore = class {
     try {
       const con = await client.connect();
       const sql =
-        "UPDATE mythical_weapons SET name = $1, weight = $2, type = $3 WHERE id = $4 RETURNING *";
+        "UPDATE weapons SET name = $1, type = $2, weight = $3 WHERE id = $4 RETURNING *;";
       const result = await con.query(sql, [
         weapon.name,
-        weapon.weight,
         weapon.type,
+        weapon.weight,
         weapon.id,
       ]);
       con.release();
@@ -67,11 +68,11 @@ export const MythicalWeaponStore = class {
     }
   };
 
-  deleteWeapon = async (id: number): Promise<Weapon[]> => {
+  deleteWeapon = async (name: string): Promise<Weapon[]> => {
     try {
       const con = await client.connect();
-      const sql = "DELETE FROM mythical_weapons WHERE id = $1 RETURNING *";
-      const result = await con.query(sql, [id]);
+      const sql = "DELETE FROM weapons WHERE name = $1";
+      const result = await con.query(sql, [name]);
       con.release();
       return result.rows;
     } catch (error) {

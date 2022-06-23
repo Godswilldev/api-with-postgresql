@@ -1,11 +1,8 @@
-import { MythicalWeaponStore } from "../../models/mythicalWeapon.model";
+import { WeaponStore } from "../../models/mythicalWeapon.model";
 
-const store = new MythicalWeaponStore();
+const store = new WeaponStore();
 
-describe("Mythical Weapons Model", () => {
-  beforeAll(async () => {
-    console.log(process.env.ENV);
-  });
+describe("Weapons Model", () => {
   it("should have a getAllWeapons method", () => {
     expect(store.getAllWeapons).toBeDefined();
   });
@@ -25,15 +22,15 @@ describe("Mythical Weapons Model", () => {
 
   it("should create a new weapon", async () => {
     const result = await store.createWeapon({
-      name: "Edet",
-      type: "Godswill",
+      name: "AK47",
+      type: "GUN",
       weight: 20,
     });
     expect(result).toEqual([
       {
         id: 1,
-        name: "Edet",
-        type: "Godswill",
+        name: "AK47",
+        type: "GUN",
         weight: 20,
       },
     ]);
@@ -44,22 +41,44 @@ describe("Mythical Weapons Model", () => {
     expect(result).toEqual([
       {
         id: 1,
-        name: "Edet",
-        type: "Godswill",
+        name: "AK47",
+        type: "GUN",
         weight: 20,
       },
     ]);
   });
 
-  it("should return one product", async () => {
+  it("should return one weapon", async () => {
     const result = await store.getOneWeapon(1);
     expect(result).toEqual([
-      { id: 1, name: "Astrakhan", type: "Earth", weight: 1 },
+      {
+        id: 1,
+        name: "AK47",
+        type: "GUN",
+        weight: 20,
+      },
+    ]);
+  });
+
+  it("should update a weapon", async () => {
+    const result = await store.updateWeapon({
+      id: 1,
+      name: "Sniper",
+      type: "Long Gun",
+      weight: 30,
+    });
+    expect(result).toEqual([
+      {
+        id: 1,
+        name: "Sniper",
+        type: "Long Gun",
+        weight: 30,
+      },
     ]);
   });
 
   it("should delete a weapon", async () => {
-    const result = await store.deleteWeapon(1);
+    const result = await store.deleteWeapon("AK47");
     expect(result).toEqual([]);
   });
 });
