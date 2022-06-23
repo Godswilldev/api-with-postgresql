@@ -30,7 +30,6 @@ export const WeaponStore = class {
       const con = await client.connect();
       const sql = "SELECT * FROM weapons";
       const result = await con.query(sql);
-      console.log(process.env.ENV);
       con.release();
       return result.rows;
     } catch (error) {
