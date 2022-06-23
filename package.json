@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/server.ts",
     "tsc": "tsc",
-    "test:mac-linux": "ENV=test && db-migrate --env test up && jasmine-ts && db-migrate db:drop test",
+    "test:mac-linux": "ENV=test && db-migrate --env test up && jasmine-ts &&  db-migrate --env test down && db-migrate db:drop test",
     "test:windows": "set ENV=test && db-migrate --env test up && jasmine-ts && db-migrate --env test down && db-migrate db:drop test",
     "dev": "tsc-watch --noClear -p tsconfig.json --onSuccess \"node ./dist/server.js\""
   },
