@@ -67,11 +67,11 @@ export const WeaponStore = class {
     }
   };
 
-  deleteWeapon = async (name: string): Promise<Weapon[]> => {
+  deleteWeapon = async (id: number): Promise<Weapon[]> => {
     try {
       const con = await client.connect();
-      const sql = "DELETE FROM weapons WHERE name = $1";
-      const result = await con.query(sql, [name]);
+      const sql = "DELETE FROM weapons WHERE id = $1";
+      const result = await con.query(sql, [id]);
       con.release();
       return result.rows;
     } catch (error) {

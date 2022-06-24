@@ -1,4 +1,4 @@
-import { WeaponStore } from "../../models/mythicalWeapon.model";
+import { WeaponStore } from "../../models/weapon.model";
 
 const store = new WeaponStore();
 
@@ -78,7 +78,7 @@ describe("Weapons Model", () => {
   });
 
   it("should delete a weapon", async () => {
-    const result = await store.deleteWeapon("AK47");
+    const result = await store.deleteWeapon(1);
     expect(result).toEqual([]);
   });
 });
