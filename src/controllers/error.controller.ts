@@ -13,6 +13,4 @@ export const globalErrorHandler: ErrorRequestHandler = (
     status: err.status,
     message: err.message,
   });
-
-  next();
 };
