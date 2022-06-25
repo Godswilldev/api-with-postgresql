@@ -1,13 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import { WeaponStore } from "../models/weapon.model";
+import { catchAsync } from "../utils/catchAsync";
 
 const weapons = new WeaponStore();
-export const getALlWeapons = async (
-  _req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
+
+export const getALlWeapons = catchAsync(
+  async (_req: Request, res: Response, next: NextFunction) => {
     const result = await weapons.getAllWeapons();
     res.status(200).json({
       message: "success",
@@ -17,10 +15,8 @@ export const getALlWeapons = async (
       },
     });
     next();
-  } catch (error) {
-    throw new Error(`Cannot get All weapons ${error}`);
   }
-};
+);
 
 export const createWeapon = async (
   req: Request,
