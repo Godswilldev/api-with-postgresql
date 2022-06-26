@@ -6,13 +6,17 @@ export class AppError extends Error {
   constructor(message: string | undefined, statusCode: number) {
     super(message);
 
-    // Object.setPrototypeOf(this, new.target.prototype);
-    // this.status = args.status || "Error";
+    Object.setPrototypeOf(this, new.target.prototype);
     this.statusCode = statusCode;
     this.status = `${this.statusCode}`.startsWith("4") ? "Failed" : "Error";
     this.isOperational = true;
-    // this.isOperational = args.isOperational !== undefined && args.isOperational;
 
     Error.captureStackTrace(this, this.constructor);
   }
 }
+
+// const name = new AppError("Invalid greg", 400);
+// console.log(name.message);
+// console.log(name.statusCode);
+// console.log(name.status);
+// console.log(name.name);

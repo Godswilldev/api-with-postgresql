@@ -1,3 +1,4 @@
+import { AppError } from "./../utils/appError";
 import { ErrorRequestHandler } from "express";
 
 export const globalErrorHandler: ErrorRequestHandler = (
@@ -11,6 +12,7 @@ export const globalErrorHandler: ErrorRequestHandler = (
 
   res.status(err.statusCode).json({
     status: err.status,
+    error: err,
     message: err.message,
   });
 };
