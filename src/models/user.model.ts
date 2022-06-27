@@ -25,8 +25,6 @@ export const UserStore = class {
 
       const hash = await bcrypt.hash(user.password + pepper, 10);
 
-      console.log(hash);
-
       const result = await conn.query(sql, [
         user.firstname,
         user.lastname,
