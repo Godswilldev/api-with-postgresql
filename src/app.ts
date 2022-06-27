@@ -14,10 +14,10 @@ app.use(express.json());
 app.use("/api/v1/weapon", weaponsRouter);
 app.use("/api/v1", userRouter);
 
-// app.all("*", (req, _res, next) =>
-//   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404))
-// );
+app.all("*", (req, _res, next) =>
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404))
+);
 
-// app.use(globalErrorHandler);
+app.use(globalErrorHandler);
 
 export default app;
