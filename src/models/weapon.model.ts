@@ -1,11 +1,11 @@
 import client from "../database";
 
-export type Weapon = {
+export interface Weapon {
   id?: number;
   name: string;
   type: string;
   weight: number;
-};
+}
 
 export const WeaponStore = class {
   createWeapon = async (weapon: Weapon): Promise<Weapon[]> => {
