@@ -12,9 +12,9 @@ app.use(express.json());
 
 app.use("/api/v1/weapon", weaponsRouter);
 
-app.all("*", (req, _res, next) => {
-  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
-});
+app.all("*", (req, _res, next) =>
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404))
+);
 
 app.use(globalErrorHandler);
 

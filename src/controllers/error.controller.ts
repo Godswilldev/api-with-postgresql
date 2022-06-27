@@ -1,18 +1,9 @@
 import { AppError } from "./../utils/appError";
 import { ErrorRequestHandler } from "express";
 
-export const globalErrorHandler: ErrorRequestHandler = (
-  err,
-  req,
-  res,
-  next
-) => {
-  err.statusCode = err.statusCode || 500;
-  err.status = err.status || "error";
-
+export const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) =>
   res.status(err.statusCode).json({
     status: err.status,
     error: err,
     message: err.message,
   });
-};

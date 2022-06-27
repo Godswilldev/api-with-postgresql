@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { catchAsync } from "../utils/catchAsync";
 
 import {
   getALlWeapons,
@@ -10,11 +11,15 @@ import {
 
 const weaponsRouter = Router();
 
-weaponsRouter.route("/").get(getALlWeapons).post(createWeapon);
+weaponsRouter
+  .route("/")
+  .get(catchAsync(getALlWeapons))
+  .post(catchAsync(createWeapon));
+
 weaponsRouter
   .route("/:id")
-  .get(getOneWeapon)
-  .put(updateWeapon)
-  .delete(deleteWeapon);
+  .get(catchAsync(getOneWeapon))
+  .put(catchAsync(updateWeapon))
+  .delete(catchAsync(deleteWeapon));
 
 export default weaponsRouter;
