@@ -1,13 +1,14 @@
 import { config } from "dotenv";
 import bcrypt, { hash } from "bcrypt";
 import client from "../database";
+import { AppError } from "../utils/appError";
 config();
 
 const { BCRYPT_PASSWORD, SALT_ROUNDS, PEPPER } = process.env;
 
 export interface UsersModelProps {
-  firstname?: string;
-  lastname?: string;
+  firstname?: string | null;
+  lastname?: string | null;
   email: string;
   password: string;
 }
@@ -36,7 +37,7 @@ export const UserStore = class {
 
       return result.rows;
     } catch (error) {
-      throw new Error(`Cannot create user ${error}`);
+      throw new AppError(`Cannot create user ${error}`, 400);
     }
   };
 
@@ -66,7 +67,59 @@ export const UserStore = class {
         return "Email not found in the database";
       }
     } catch (error) {
-      throw new Error(`Couldn't login ${error}`);
+      throw new AppError(`Couldn't login ${error}`, 401);
+    }
+  };
+
+  getAllUsers = async () => {
+    try {
+      const conn = await client.connect();
+      const sql = "SELECT * FROM users";
+      const result = await conn.query(sql);
+      conn.release();
+      return result.rows;
+    } catch (error) {
+      throw new AppError(`Couldn't get users ${error}`, 500);
+    }
+  };
+
+  getUser = async (userId: string) => {
+    try {
+      const conn = await client.connect();
+      const sql = "SELECT * FROM users WHERE id=($1)";
+      const res = await conn.query(sql, [userId]);
+      conn.release();
+      return res.rows;
+    } catch (error) {
+      throw new AppError(`Cannot get User ${error}`, 400);
+    }
+  };
+
+  editUser = async (
+    id: string,
+    { firstname, lastname, email }: UsersModelProps
+  ) => {
+    const conn = await client.connect();
+
+    let sql =
+      "UPDATE users SET firstname = ($2), lastname = ($3), email=($4) WHERE id=($1) RETURNING *";
+
+    let result = await conn.query(sql, [id, firstname, lastname, email]);
+
+    conn.release();
+
+    return result.rows;
+  };
+
+  deleteUser = async (userId: string) => {
+    try {
+      const conn = await client.connect();
+      const sql = "DELETE FROM users WHERE id=($1) RETURNING *";
+      const res = await conn.query(sql, [userId]);
+      conn.release();
+      return res.rows;
+    } catch (error) {
+      throw new AppError(`Cannot DELETE User ${error}`, 400);
     }
   };
 };
