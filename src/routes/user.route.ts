@@ -1,9 +1,8 @@
 import { Router } from "express";
 import { catchAsync } from "../utils/catchAsync";
+import { verifyUser } from "../controllers/auth.controller";
 
 import {
-  signup,
-  login,
   getUsers,
   getUser,
   deleteUser,
@@ -12,9 +11,11 @@ import {
 
 const userRouter = Router();
 
-userRouter.route("/users").get(getUsers);
-userRouter.route("/login").post(catchAsync(login));
-userRouter.route("/signup").post(catchAsync(signup));
-userRouter.route("/users/:id").get(getUser).delete(deleteUser).put(editUser);
+userRouter.route("/").get(catchAsync(getUsers));
+userRouter
+  .route("/:id")
+  .get(catchAsync(getUser))
+  .delete(verifyUser, catchAsync(deleteUser))
+  .put(verifyUser, catchAsync(editUser));
 
 export default userRouter;

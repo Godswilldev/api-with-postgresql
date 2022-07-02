@@ -1,25 +1,9 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import { UserStore } from "../models/user.model";
+import dotenv from "dotenv";
+dotenv.config();
 
 const User = new UserStore();
-
-export const signup = async (req: Request, res: Response) => {
-  const createdUser = await User.createUser({ ...req.body });
-  res.status(201).json({
-    data: {
-      user: createdUser,
-    },
-  });
-};
-
-export const login = async (req: Request, res: Response) => {
-  const logInUser = await User.login({ ...req.body });
-  res.status(200).json({
-    data: {
-      user: logInUser,
-    },
-  });
-};
 
 export const getUsers = async (req: Request, res: Response) => {
   const users = await User.getAllUsers();
@@ -42,9 +26,15 @@ export const getUser = async (req: Request, res: Response) => {
 };
 
 export const editUser = async (req: Request, res: Response) => {
-  const user = await User.editUser(req.params.id, { ...req.body });
+  const { firstname, email, password, lastname } = req.body;
+  const user = await User.editUser(req.params.id, {
+    firstname,
+    email,
+    password,
+    lastname,
+  });
 
-  res.json({
+  return res.status(200).json({
     status: "Updated successfully",
     data: {
       user,
@@ -53,10 +43,10 @@ export const editUser = async (req: Request, res: Response) => {
 };
 
 export const deleteUser = async (req: Request, res: Response) => {
-  await User.deleteUser(req.params.id);
+  const user = await User.deleteUser(req.params.id);
 
   res.json({
     status: "deleted successfully",
-    data: null,
+    data: user,
   });
 };

@@ -8,18 +8,19 @@ import {
   updateWeapon,
   deleteWeapon,
 } from "../controllers/weapon.controller";
+import { verifyUser } from "../controllers/auth.controller";
 
 const weaponsRouter = Router();
 
 weaponsRouter
   .route("/")
   .get(catchAsync(getALlWeapons))
-  .post(catchAsync(createWeapon));
+  .post(verifyUser, catchAsync(createWeapon));
 
 weaponsRouter
   .route("/:id")
   .get(catchAsync(getOneWeapon))
-  .put(catchAsync(updateWeapon))
-  .delete(catchAsync(deleteWeapon));
+  .put(verifyUser, catchAsync(updateWeapon))
+  .delete(verifyUser, catchAsync(deleteWeapon));
 
 export default weaponsRouter;

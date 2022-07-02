@@ -1,5 +1,5 @@
 import { config } from "dotenv";
-import bcrypt, { hash } from "bcrypt";
+import bcrypt from "bcrypt";
 import client from "../database";
 import { AppError } from "../utils/appError";
 config();
@@ -74,7 +74,7 @@ export const UserStore = class {
   getAllUsers = async () => {
     try {
       const conn = await client.connect();
-      const sql = "SELECT * FROM users";
+      const sql = "SELECT id, firstname, lastname, email FROM users";
       const result = await conn.query(sql);
       conn.release();
       return result.rows;
@@ -86,7 +86,8 @@ export const UserStore = class {
   getUser = async (userId: string) => {
     try {
       const conn = await client.connect();
-      const sql = "SELECT * FROM users WHERE id=($1)";
+      const sql =
+        "SELECT id, firstname, lastname, email FROM users WHERE id=($1)";
       const res = await conn.query(sql, [userId]);
       conn.release();
       return res.rows;
@@ -102,7 +103,7 @@ export const UserStore = class {
     const conn = await client.connect();
 
     let sql =
-      "UPDATE users SET firstname = ($2), lastname = ($3), email=($4) WHERE id=($1) RETURNING *";
+      "UPDATE users SET firstname = ($2), lastname = ($3), email=($4) WHERE id=($1) RETURNING id, firstname, lastname, email";
 
     let result = await conn.query(sql, [id, firstname, lastname, email]);
 
@@ -114,10 +115,11 @@ export const UserStore = class {
   deleteUser = async (userId: string) => {
     try {
       const conn = await client.connect();
-      const sql = "DELETE FROM users WHERE id=($1) RETURNING *";
+      const sql = "DELETE FROM users WHERE id=($1)";
       const res = await conn.query(sql, [userId]);
       conn.release();
-      return res.rows;
+
+      return res.rowCount === 0 ? "User no longer exists" : res.rows;
     } catch (error) {
       throw new AppError(`Cannot DELETE User ${error}`, 400);
     }
