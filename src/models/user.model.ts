@@ -74,7 +74,7 @@ export const UserStore = class {
         "SELECT id, firstname, lastname, email FROM users WHERE id=($1)";
       const res = await conn.query(sql, [userId]);
       conn.release();
-      return res.rows;
+      return res;
     } catch (error) {
       throw new AppError(`Cannot get User ${error}`, 400);
     }

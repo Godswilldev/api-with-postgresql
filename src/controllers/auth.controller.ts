@@ -6,23 +6,23 @@ import bcrypt from "bcrypt";
 import { AppError } from "../utils/appError";
 dotenv.config();
 
+const { PEPPER, JWT_TOKEN_SECRET } = process.env;
+
 const User = new UserStore();
 
 export const verifyUser = (req: Request, res: Response, next: NextFunction) => {
   try {
     const authorizationHeader = req.headers.authorization;
     const token = authorizationHeader?.split(" ")[1];
-    jwt.verify(token ? token : "", process.env.JWT_TOKEN_SECRET || "secret");
+    jwt.verify(token ? token : "", JWT_TOKEN_SECRET || "secret");
     next();
   } catch (error) {
-    return res.status(401).json({
-      error,
-    });
+    return next(new AppError(`${error}`, 401));
   }
 };
 
 const signJwT = (user: UsersModelProps[]) =>
-  jwt.sign({ user }, process.env.JWT_TOKEN_SECRET || "secret", {
+  jwt.sign({ user }, JWT_TOKEN_SECRET || "secret", {
     expiresIn: "10d",
   });
 
@@ -49,7 +49,6 @@ export const chckCredentials = async (
   _res: Response,
   next: NextFunction
 ) => {
-  const { PEPPER } = process.env;
   const pepper = PEPPER !== undefined ? PEPPER : "";
 
   const { email, password } = req.body;
